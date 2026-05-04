@@ -1,0 +1,322 @@
+/* ============================================================
+   HERO CAROUSEL  — add to bottom of styles.css
+   ============================================================ */
+
+/* ── Container ─────────────────────────────────────────────── */
+.hero-carousel {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 580px;
+  overflow: hidden;
+  background: var(--navy);
+}
+
+/* ── Track & Slides ─────────────────────────────────────────── */
+.hc-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.hc-slide {
+  position: absolute;
+  inset: 0;
+  background-image: var(--slide-bg);
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.9s cubic-bezier(0.4,0,0.2,1);
+  pointer-events: none;
+}
+.hc-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Overlay ────────────────────────────────────────────────── */
+.hc-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(10,26,92,0.88) 0%,
+    rgba(10,47,166,0.65) 55%,
+    rgba(26,140,255,0.22) 100%
+  );
+}
+
+/* ── Content ────────────────────────────────────────────────── */
+.hc-content {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%);
+  max-width: 760px;
+  padding-top: var(--nav-h);
+  z-index: 2;
+}
+.hc-slide:not(.active) .hc-content { opacity: 0; }
+.hc-slide.active .hc-content {
+  animation: hcFadeUp 0.8s ease 0.2s both;
+}
+@keyframes hcFadeUp {
+  from { opacity: 0; transform: translateY(calc(-50% + 24px)); }
+  to   { opacity: 1; transform: translateY(-50%); }
+}
+
+/* ── Arrows ─────────────────────────────────────────────────── */
+.hc-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.3);
+  background: rgba(10,26,92,0.45);
+  backdrop-filter: blur(8px);
+  color: var(--white);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--tr), border-color var(--tr), transform var(--tr);
+}
+.hc-arrow:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: translateY(-50%) scale(1.08);
+}
+.hc-prev { left: 24px; }
+.hc-next { right: 24px; }
+
+/* ── Dots ───────────────────────────────────────────────────── */
+.hc-dots {
+  position: absolute;
+  bottom: 104px;
+  left: 5%;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+.hc-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.5);
+  background: transparent;
+  cursor: pointer;
+  transition: background var(--tr), border-color var(--tr), transform var(--tr);
+  padding: 0;
+}
+.hc-dot.active {
+  background: var(--sky);
+  border-color: var(--sky);
+  transform: scale(1.3);
+}
+.hc-dot:hover { border-color: var(--sky); }
+
+/* ── Progress bar ───────────────────────────────────────────── */
+.hc-progress {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.15);
+  z-index: 10;
+}
+.hc-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--sky));
+  transition: width linear;
+}
+
+/* ── Stats bar ──────────────────────────────────────────────── */
+.hc-stats {
+  position: absolute;
+  bottom: 12px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  z-index: 10;
+  padding: 0 5%;
+  pointer-events: none;
+}
+.hc-stat {
+  flex: 1;
+  max-width: 200px;
+  text-align: center;
+  padding: 14px 10px;
+  background: rgba(10,26,92,0.55);
+  backdrop-filter: blur(10px);
+  border-top: 2px solid rgba(56,182,255,0.3);
+}
+.hc-stat + .hc-stat { border-left: 1px solid rgba(255,255,255,0.1); }
+.hc-stat-num {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 2rem;
+  color: var(--sky);
+  line-height: 1;
+}
+.hc-stat-label {
+  display: block;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.62);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+/* ── hero-badge (shared with old hero) ─────────────────────── */
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(56,182,255,0.15);
+  border: 1px solid rgba(56,182,255,0.4);
+  padding: 6px 16px; border-radius: 100px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600; font-size: 0.85rem;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--sky); margin-bottom: 22px;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--sky); animation: pulse 2s infinite;
+}
+.hc-content h1 { color: var(--white); margin-bottom: 18px; }
+.hc-content h1 em { font-style: normal; color: var(--sky); display: block; }
+.hero-desc {
+  font-size: 1.12rem; color: rgba(255,255,255,0.78);
+  max-width: 560px; margin-bottom: 32px; font-weight: 300;
+}
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+
+/* ============================================================
+   SERVICE CARD CAROUSEL  (horizontal scroll carousel)
+   ============================================================ */
+.srv-carousel-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-top: 0;
+}
+.srv-carousel-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+.srv-carousel-track {
+  display: flex;
+  gap: 24px;
+  transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+  will-change: transform;
+}
+/* Each card: fluid width based on visible count */
+.srv-carousel-track .srv-card {
+  flex: 0 0 calc((100% - 48px) / 3); /* 3 visible on desktop */
+  min-width: 0;
+}
+
+/* Carousel arrows */
+.srv-carousel-arrow {
+  flex-shrink: 0;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--white);
+  color: var(--primary);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--tr), color var(--tr), border-color var(--tr), transform var(--tr);
+  box-shadow: 0 2px 12px rgba(10,47,166,0.1);
+  z-index: 2;
+}
+.srv-carousel-arrow:hover {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+  transform: scale(1.08);
+}
+.srv-carousel-arrow:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+.srv-prev { margin-right: 14px; }
+.srv-next { margin-left: 14px; }
+
+/* Dots */
+.srv-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 28px;
+}
+.srv-carousel-dots .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  border: none;
+  cursor: pointer;
+  transition: background var(--tr), transform var(--tr);
+  padding: 0;
+}
+.srv-carousel-dots .dot.active {
+  background: var(--primary);
+  transform: scale(1.35);
+}
+
+/* Certification logo ticker upgrade */
+.cert-item-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.cert-item-logo img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.55;
+  transition: filter var(--tr), opacity var(--tr);
+}
+.cert-item-logo:hover img {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+.cert-item-logo span {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 0.78rem;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+/* ── Responsive overrides ───────────────────────────────────── */
+@media (max-width: 1100px) {
+  .srv-carousel-track .srv-card {
+    flex: 0 0 calc((100% - 24px) / 2); /* 2 visible */
+  }
+}
+@media (max-width: 768px) {
+  .hc-content { left: 5%; right: 5%; max-width: 100%; }
+  .hc-stats   { gap: 0; }
+  .hc-stat    { padding: 10px 6px; }
+  .hc-stat-num { font-size: 1.5rem; }
+  .hc-prev    { left: 10px; }
+  .hc-next    { right: 10px; }
+  .hc-arrow   { width: 40px; height: 40px; }
+  .hc-dots    { bottom: 92px; }
+  .srv-carousel-track .srv-card {
+    flex: 0 0 calc(100% - 0px); /* 1 visible */
+  }
+  .srv-prev { margin-right: 10px; }
+  .srv-next { margin-left: 10px; }
+}
+@media (max-width: 480px) {
+  .hero-carousel { min-height: 100svh; }
+  .hc-stats { flex-wrap: wrap; }
+  .hc-stat  { flex: 1 1 50%; }
+}
