@@ -36,8 +36,16 @@
     slides[current].classList.add('active');
     dots[current] && dots[current].classList.add('active');
 
-    setTimeout(() => { isAnimating = false; }, TRANSITION);
+    // Scroll to top of carousel on mobile so user sees new slide
+    if (window.innerWidth <= 768) {
+      const carousel = document.querySelector('.hero-carousel');
+      if (carousel) {
+        const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'), 10) || 64;
+        window.scrollTo({ top: carousel.offsetTop - navH, behavior: 'smooth' });
+      }
+    }
 
+    setTimeout(() => { isAnimating = false; }, TRANSITION);
     resetProgress();
   }
 
